@@ -106,7 +106,7 @@ var apacheAdapter = strings.NewReplacer(
 	"%r", "{{.R.Method}} {{.R.URL.RequestURI}} {{.R.Proto}}",
 	"%s", "{{.StatusCode}}",
 	"%S", "\033[{{.StatusCode | statusCodeColor}}m{{.StatusCode}}",
-	"%t", "{{if .StartTime}}{{.StartTime.Format \"02/Jan/2006:15:04:05 -0700\"}}{{end}}",
+	"%t", "{{if .StartTime}}{{.StartTime.Format \"2006-01-02 15:04:05 -0700\"}}{{end}}",
 	"%T", "{{if .ResponseTime}}{{.ResponseTime.Seconds | printf \"%.3f\"}}{{end}}",
 	"%u", "{{.RemoteUser | dashIfEmptyStr}}",
 	"%{User-Agent}i", "{{.R.UserAgent | dashIfEmptyStr}}",

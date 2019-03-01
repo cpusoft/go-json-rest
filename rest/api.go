@@ -74,6 +74,18 @@ var DefaultProdStack = []Middleware{
 	&ContentTypeCheckerMiddleware{},
 }
 
+// Defines a stack of middlewares convenient for production. Among other things:
+// Apache CombinedLogFormat logging, gzip compression.
+var AccessProdStack = []Middleware{
+	&AccessLogApacheMiddleware{
+		Format: CombinedLogFormat,
+	},
+	&TimerMiddleware{},
+	&RecorderMiddleware{},
+	&RecoverMiddleware{},
+	&GzipMiddleware{},
+}
+
 // Defines a stack of middlewares that should be common to most of the middleware stacks.
 var DefaultCommonStack = []Middleware{
 	&TimerMiddleware{},
