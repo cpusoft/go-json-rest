@@ -3,6 +3,7 @@ package rest
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"net"
 	"net/http"
 )
@@ -19,6 +20,11 @@ type ResponseWriter interface {
 	// they are not already written, then write the payload.
 	// The Content-Type header is set to "application/json", unless already specified.
 	WriteJson(v interface{}) error
+
+	// 's' is already json, write the headers with http.StatusOK if
+	// they are not already written, then write the payload.
+	// The Content-Type header is set to "application/json", unless already specified.
+	WriteJsonString(s string) error
 
 	// Encode the data structure to JSON, mainly used to wrap ResponseWriter in
 	// middlewares.
@@ -82,6 +88,17 @@ func (w *responseWriter) EncodeJson(v interface{}) ([]byte, error) {
 		return nil, err
 	}
 	return b, nil
+}
+
+func (w *responseWriter) WriteJsonString(s string) error {
+	if len(s) == 0 {
+		return errors.New("json string is empty")
+	}
+	_, err := w.Write([]byte(s))
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 // Encode the object in JSON and call Write.
